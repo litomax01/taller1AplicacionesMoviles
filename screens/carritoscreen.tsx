@@ -1,46 +1,25 @@
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React from 'react';
+import { View, Text, FlatList, Button } from 'react-native';
+import { useCart } from '../context/carritocontexto';
 
-type Book = {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  image: string;
-};
-
-type CartContextType = {
-  cart: Book[];
-  addToCart: (book: Book) => void;
-  removeFromCart: (id: number) => void;
-};
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
-
-export function CartProvider({ children }: { children: ReactNode }) {
-  const [cart, setCart] = useState<Book[]>([]);
-
-  const addToCart = (book: Book) => {
-    setCart((prevCart) => [...prevCart, book]);
-  };
-
-  const removeFromCart = (id: number) => {
-    setCart((prevCart) => prevCart.filter((book) => book.id !== id));
-  };
+export default function CartScreen() {
+  const { cart, removeFromCart } = useCart();
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
-      {children}
-    </CartContext.Provider>
+    <View>
+      <Text>Carrito de Compras</Text>
+      <FlatList
+        data={cart}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.title}</Text>
+            <Text>{item.author}</Text>
+            <Text>${item.price}</Text>
+            <Button title="Eliminar" onPress={() => removeFromCart(item.id)} />
+          </View>
+        )}
+      />
+    </View>
   );
 }
-
-
-export function useCart() {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart debe usarse dentro de un CartProvider');
-  }
-  return context;
-}
-
-export default CartContext;

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, Button } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useCart } from '../context/carritocontexto';
 
 type Book = {
   id: number;
@@ -27,6 +28,7 @@ type Props = {
 
 export default function ProductScreen({ route, navigation }: Props) {
   const { book } = route.params;
+  const { addToCart } = useCart();
 
   return (
     <View>
@@ -34,7 +36,8 @@ export default function ProductScreen({ route, navigation }: Props) {
       <Text>{book.title}</Text>
       <Text>{book.author}</Text>
       <Text>${book.price}</Text>
-      <Button title="Agregar al carrito" onPress={() => navigation.navigate('Cart')} />
+      <Button title="Agregar al carrito" onPress={() => addToCart(book)} />
+      <Button title="Ver carrito" onPress={() => navigation.navigate('Cart')} />
     </View>
   );
 }

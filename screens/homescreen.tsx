@@ -20,9 +20,12 @@ export default function HomeScreen({ navigation }: Props) {
   const [books, setBooks] = useState<Book[]>([]);
 
   useEffect(() => {
-    axios.get('https://example.com/api/books')
-      .then(response => setBooks(response.data))
-      .catch(error => console.error(error));
+    useEffect(() => {
+      axios.get('https://fakestoreapi.com/products')
+        .then(response => setBooks(response.data))
+        .catch(error => console.error(error));
+    }, []);
+    
   }, []);
 
   return (
