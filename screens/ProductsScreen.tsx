@@ -2,17 +2,7 @@ import React from 'react';
 import { View, Text, Image, Button, StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { useCart } from '../context/CartContext';
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-};
-
-type RootStackParamList = {
-  Product: { product: Product };
-};
+import { RootStackParamList } from '../navigation/navigation';
 
 type ProductScreenRouteProp = RouteProp<RootStackParamList, 'Product'>;
 
