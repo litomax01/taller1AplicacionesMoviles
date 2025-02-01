@@ -15,7 +15,7 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const CartProvider = ({ children }: { children: ReactNode }) => {
+export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Product[]>([]);
 
   const addToCart = (product: Product) => {
@@ -31,15 +31,12 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </CartContext.Provider>
   );
-};
+}
 
-const useCart = () => {
+export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
     throw new Error("useCart debe usarse dentro de un CartProvider");
   }
   return context;
-};
-
-export { useCart };
-export default CartProvider;
+}
